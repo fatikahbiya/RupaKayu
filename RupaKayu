@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Rupa Kayu - Galeri visual 6 jenis kayu dengan oil finish untuk furniture. Bandingkan tampilan kayu untuk kebutuhan desain interior Anda.">
+    <meta name="keywords" content="kayu, furniture, oil finish, desain interior, jati, mahoni, merbau">
+    <meta name="author" content="Fatikah Angraini">
+    <meta name="theme-color" content="#8B4513">
+    
+    <!-- PWA Meta Tags -->
+    <link rel="manifest" href="#" id="manifest-placeholder">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Rupa Kayu">
+    
+    <title>Rupa Kayu - Galeri Kayu Oil Finish</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.1/font/bootstrap-icons.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-wood: #8B4513;
+            --secondary-wood: #D2691E;
+            --light-bg: #FFF8F0;
+            --dark-text: #3E2723;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--dark-text);
+            background-color: var(--light-bg);
+            overflow-x: hidden;
+        }
+        
+        /* Loading Animation */
+        #loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--light-bg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+        
+        .loader {
+            width: 60px;
+            height: 60px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid var(--primary-wood);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Navbar */
+        .navbar {
+            background-color: rgba(255, 255, 255, 0.95) !important;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            color: var(--primary-wood) !important;
+            font-size: 1.5rem;
+        }
+        
+        .nav-link {
+            color: var(--dark-text) !important;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-link:hover {
+            color: var(--primary-wood) !important;
+        }
+        
+        /* Hero Section */
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, var(--light-bg) 0%, #fff 100%);
+            padding: 100px 0 50px;
+            opacity: 0;
+            animation: fadeIn 1s ease forwards;
+        }
+        
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+        
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--primary-wood);
+            margin-bottom: 1.5rem;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.3rem;
+            color: var(--dark-text);
+            margin-bottom: 2rem;
+            font-weight: 300;
+        }
+        
+        .hero-image {
+            width: 100%;
+            max-width: 500px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        /* Section Styles */
+        section {
+            padding: 80px 0;
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-wood);
+            margin-bottom: 3rem;
+            text-align: center;
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: var(--secondary-wood);
+            margin: 1rem auto 0;
+            border-radius: 2px;
+        }
+        
+        /* Gallery Cards */
+        .wood-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: all 0.4s ease;
+            cursor: pointer;
+            margin-bottom: 30px;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        .wood-card.fade-in {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+        
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .wood-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+        
+        .wood-card-img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+        
+        .wood-card:hover .wood-card-img {
+            transform: scale(1.1);
+        }
+        
+        .wood-card-body {
+            padding: 1.5rem;
+        }
+        
+        .wood-card-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--primary-wood);
+            margin-bottom: 0.5rem;
+        }
+        
+        .wood-card-text {
+            color: #666;
+            font-size: 0.95rem;
+        }
+        
+        /* Modal Customization */
+        .modal-content {
+            border-radius: 20px;
+            overflow: hidden;
+        }
+        
+        .modal-header {
+            background: var(--primary-wood);
+            color: white;
+            border: none;
+        }
+        
+        .modal-body img {
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+        
+        /* About Section */
+        .about-section {
+            background: white;
+        }
+        
+        .about-image {
+            width: 100%;
+            max-width: 400px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--primary-wood);
+            color: white;
+            padding: 40px 0 20px;
+        }
+        
+        footer a {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+        
+        footer a:hover {
+            opacity: 0.8;
+        }
+        
+        /* Back to Top Button */
+        #backToTop {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: var(--primary-wood);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        
+        #backToTop:hover {
+            background: var(--secondary-wood);
+            transform: translateY(-5px);
+        }
+        
+        #backToTop.show {
+            display: flex;
+        }
+        
+        /* Lazy Loading Placeholder */
+        .lazy-placeholder {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+        }
+        
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .wood-card-img {
+                height: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div class="loader"></div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="bi bi-tree-fill"></i> Rupa Kayu
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#home">Beranda</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#gallery">Galeri</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">Tentang</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <h1 class="hero-title">Rupa Kayu</h1>
+                    <p class="hero-subtitle">Jelajahi keindahan 6 jenis kayu dengan finishing oil terbaik untuk furniture Anda. Bandingkan dan pilih yang sempurna untuk ruangan impian Anda.</p>
+                    <a href="#gallery" class="btn btn-lg px-4" style="background: var(--primary-wood); color: white; border-radius: 10px;">
+                        <i class="bi bi-grid-3x3-gap-fill me-2"></i> Lihat Galeri
+                    </a>
+                </div>
+                <div class="col-lg-6 text-center">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 500 400'%3E%3Crect fill='%23D2691E' width='500' height='400' rx='20'/%3E%3Cpath fill='%238B4513' d='M100,150 L400,150 L400,350 L100,350 Z'/%3E%3Crect fill='%23A0522D' x='120' y='170' width='120' height='160' rx='5'/%3E%3Crect fill='%23CD853F' x='260' y='170' width='120' height='160' rx='5'/%3E%3Ccircle fill='%23FFF' cx='180' cy='250' r='8'/%3E%3Ccircle fill='%23FFF' cx='320' cy='250' r='8'/%3E%3Cpath fill='none' stroke='%23FFF' stroke-width='3' d='M150,100 Q250,80 350,100'/%3E%3C/svg%3E" 
+                         alt="Wood Furniture Illustration" 
+                         class="hero-image"
+                         loading="lazy">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="gallery-section">
+        <div class="container">
+            <h2 class="section-title">Galeri Kayu</h2>
+            <div class="row" id="wood-gallery">
+                <!-- Wood cards will be generated by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Ccircle fill='%23FFF8F0' cx='200' cy='200' r='180'/%3E%3Cpath fill='%238B4513' d='M200,80 C250,80 290,120 290,170 L290,230 C290,280 250,320 200,320 C150,320 110,280 110,230 L110,170 C110,120 150,80 200,80 Z'/%3E%3Ccircle fill='%23D2691E' cx='200' cy='200' r='80'/%3E%3Cpath fill='%23CD853F' d='M200,130 L200,270 M130,200 L270,200'/%3E%3Ccircle fill='%23FFF' cx='170' cy='180' r='8'/%3E%3Ccircle fill='%23FFF' cx='230' cy='180' r='8'/%3E%3Cpath fill='none' stroke='%23FFF' stroke-width='4' d='M170,230 Q200,250 230,230'/%3E%3C/svg%3E" 
+                         alt="About Illustration" 
+                         class="about-image mx-auto d-block"
+                         loading="lazy">
+                </div>
+                <div class="col-lg-6">
+                    <h2 class="section-title text-start">Tentang Aplikasi</h2>
+                    <p class="mb-4">Rupa Kayu adalah aplikasi Progressive Web App (PWA) yang dirancang untuk membantu Anda membandingkan visual 6 jenis kayu berkualitas dengan oil finish. Aplikasi ini cocok untuk pembeli furniture, desainer interior, dan pengrajin kayu.</p>
+                    
+                    <div class="card border-0 shadow-sm mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title" style="color: var(--primary-wood);">
+                                <i class="bi bi-person-circle me-2"></i> Pembuat
+                            </h5>
+                            <p class="card-text mb-1"><strong>Fatikah Angraini</strong></p>
+                            <p class="card-text mb-1">Semester 5</p>
+                            <p class="card-text mb-0">Bisnis Digital – Universitas Sugeng Hartono</p>
+                        </div>
+                    </div>
+                    
+                    <div class="alert alert-info border-0">
+                        <i class="bi bi-info-circle-fill me-2"></i>
+                        <strong>Tips:</strong> Aplikasi ini dapat diinstall di perangkat Anda dan bekerja secara offline!
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 mb-3 mb-md-0">
+                    <h5><i class="bi bi-tree-fill me-2"></i> Rupa Kayu</h5>
+                    <p class="mb-0">Galeri visual kayu oil finish untuk furniture berkualitas.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p class="mb-2">
+                        <i class="bi bi-envelope-fill me-2"></i> 
+                        <a href="mailto:fatikah@example.com">fatikah@example.com</a>
+                    </p>
+                    <p class="mb-0">
+                        <i class="bi bi-instagram me-2"></i> 
+                        <a href="#" target="_blank">@rupakayu</a>
+                    </p>
+                </div>
+            </div>
+            <hr style="border-color: rgba(255,255,255,0.2); margin: 1.5rem 0;">
+            <div class="text-center">
+                <p class="mb-0">&copy; 2024 Rupa Kayu. Dibuat oleh Fatikah Angraini.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="backToTop" aria-label="Back to top">
+        <i class="bi bi-arrow-up"></i>
+    </button>
+
+    <!-- Modal Template -->
+    <div class="modal fade" id="woodModal" tabindex="-1" aria-labelledby="woodModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="woodModalLabel">Detail Kayu</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <img id="modalImage" src="" alt="" class="img-fluid w-100 mb-3" loading="lazy">
+                    <h4 id="modalTitle" style="color: var(--primary-wood);"></h4>
+                    <p id="modalDescription"></p>
+                    <div class="badge bg-secondary">Oil Finish</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Wood Data
+        const woodData = [
+            {
+                name: 'Kayu Jati',
+                description: 'Kayu jati berkualitas tinggi dengan serat indah dan tahan lama. Cocok untuk furniture premium dengan ketahanan terhadap cuaca.',
+                finish: 'Oil Finish Natural',
+                image: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300"%3E%3Crect fill="%23B8860B" width="400" height="300"/%3E%3Cpath fill="%23DAA520" opacity="0.3" d="M0,50 Q100,30 200,50 T400,50 L400,150 Q300,130 200,150 T0,150 Z"/%3E%3Cpath fill="%23CD853F" opacity="0.2" d="M0,100 Q100,120 200,100 T400,100 L400,200 Q300,180 200,200 T0,200 Z"/%3E%3C/svg%3E'
+            },
+            {
+                name: 'Kayu Mahoni',
+                description: 'Kayu mahoni dengan warna merah kecoklatan yang elegan. Mudah dikerjakan dan memiliki tekstur halus untuk furniture klasik.',
+                finish: 'Oil Finish Rich Brown',
+                image: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300"%3E%3Crect fill="%238B4513" width="400" height="300"/%3E%3Cpath fill="%23A0522D" opacity="0.4" d="M0,80 Q100,60 200,80 T400,80 L400,180 Q300,160 200,180 T0,180 Z"/%3E%3Cpath fill="%23CD5C5C" opacity="0.2" d="M0,120 Q100,140 200,120 T400,120 L400,220 Q300,200 200,220 T0,220 Z"/%3E%3C/svg%3E'
+            },
+            {
+                name: 'Kayu Merbau',
+                description: 'Kayu merbau dengan kekuatan tinggi dan warna coklat kemerahan. Ideal untuk lantai kayu dan furniture outdoor.',
+                finish: 'Oil Finish Reddish Brown',
+                image: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300"%3E%3Crect fill="%23A0522D" width="400" height="300"/%3E%3Cpath fill="%23D2691E" opacity="0.3" d="M0,60 Q100,80 200,60 T400,60 L400,160 Q300,180 200,160 T0,160 Z"/%3E%3Cpath fill="%238B4513" opacity="0.2" d="M0,110 Q100,90 200,110 T400,110 L400,210 Q300,190 200,210 T0,210 Z"/%3E%3C/svg%3E'
+            },
+            {
+                name: 'Kayu Sungkai',
+                description: 'Kayu sungkai dengan warna kuning keemasan yang cerah. Ringan namun kuat, cocok untuk furniture modern minimalis.',
+                finish: 'Oil Finish Golden Yellow',
